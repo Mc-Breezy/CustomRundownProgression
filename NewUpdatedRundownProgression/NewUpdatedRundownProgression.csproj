@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <!--
+		Use the following property to set your preferred r2modman profile
+		-->
+    <Profile>FiveNightsAtGTFO</Profile>
+
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <DebugType>None</DebugType>
+    <AssemblyName>$(SolutionName)</AssemblyName>
+    <RootNamespace>$(SolutionName)</RootNamespace>
+    <BepInEx>$(AppData)\r2modmanPlus-local\GTFO\profiles\$(Profile)\BepInEx</BepInEx>
+    <BIECacheFolder>$(BepInEx)\cache</BIECacheFolder>
+    <BuildDirectory>$(BepInEx)\plugins\$(SolutionName)\</BuildDirectory>
+    <OutputPath>$(BuildDirectory)</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;8602;8600</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;8602;8600</NoWarn>
+  </PropertyGroup>
+  <Target Name="PostBuild" BeforeTargets="PostBuildEvent">
+    <Delete Files="$(OutputPath)$(AssemblyName).deps.json" />
+  </Target>
+  <ItemGroup>
+    <Reference Include="$(BepInEx)\core\0Harmony.dll" Private="false" />
+    <Reference Include="$(BepInEx)\core\BepInEx.Core.dll" Private="false" />
+    <Reference Include="$(BepInEx)\core\BepInEx.Unity.IL2CPP.dll" Private="false" />
+    <Reference Include="$(BepInEx)\core\Il2CppInterop.Common.dll" Private="false" />
+    <Reference Include="$(BepInEx)\core\Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="$(BepInEx)\interop\*.dll" Private="false" />
+    <Reference Include="$(BepInEx)\plugins\GTFO-API.dll" Private="false" />
+    <Reference Include="$(BepInEx)\plugins\dakkhuza-MTFO\MTFO.dll" Private="false" />
+    <!--<Reference Include="$(BepInEx)\plugins\GTFOModding-InjectLib\InjectLib.dll" Private="false" />-->
+    <!--<Reference Include="$(BIECacheFolder)\Il2CppJsonNet.dll" Private="false" />-->
+    <Reference Remove="$(BepInEx)\interop\netstandard.dll" />
+  </ItemGroup>
+
+</Project>
