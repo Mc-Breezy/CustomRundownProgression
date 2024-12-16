@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Unity.IL2CPP;
+using GTFO.API;
 using GTFO.API.JSON.Converters;
 using HarmonyLib;
 using System.Text.Json;
@@ -26,8 +27,6 @@ namespace NewUpdatedRundownProgression.PluginInfo
             {
                 new Vector3Converter(),
                 new LocalizedTextConverter(),
-                new Vector2Converter(),
-                new ColorConverter()
             }
         };
         public override void Load()
@@ -36,6 +35,7 @@ namespace NewUpdatedRundownProgression.PluginInfo
             _harmony = new Harmony(GUID);
             _harmony.PatchAll();
             RundownProgressionFileSetup.Load();
+            LevelAPI.OnEnterLevel += OnLevelEnter.EnterLevel;
         }
     }
 }

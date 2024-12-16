@@ -29,17 +29,15 @@ namespace NewUpdatedRundownProgression.Patches
             //__instance.UpdateTierIconsWithProgression(RundownManager.RundownProgression, default, __instance.m_expIconsTier2, __instance.m_tierMarker2, true);
             //__instance.UpdateTierIconsWithProgression(RundownManager.RundownProgression, default, __instance.m_expIconsTier3, __instance.m_tierMarker3, true);
             //__instance.UpdateTierIconsWithProgression(RundownManager.RundownProgression, default, __instance.m_expIconsTier4, __instance.m_tierMarker4, true);
-            //__instance.UpdateTierIconsWithProgression(RundownManager.RundownProgression, default, __instance.m_expIconsTier5, __instance.m_tierMarker5, true);
+            //__instance.UpdateTierIconsWithProgression(RundownManager.RundownProgression, default, __instance.m_expIconsTier5, __instance.m_tierMarker5, true); Not needed?
             return false;
         }
     }
-    //Runs once for each tier but CM_PageRundown_New.UpdateExpeditionIconProgression causes a null ref that does not seem to effect anything? Error only appears upon patching
+    //Runs once for each tier but CM_PageRundown_New.UpdateExpeditionIconProgression causes a null ref that does not seem to effect anything? Error only appears upon patching (It was the __instance.m_tierMarker1 I think)
     [HarmonyPatch(typeof(CM_PageRundown_New), nameof(CM_PageRundown_New.UpdateTierIconsWithProgression))] 
     internal class PageRundown_UpdateProgress
     {
-        public static CM_PageRundown_New RundownPage => GuiManager.MainMenuLayer.PageRundownNew;
-
-        private static int s_count = 0; //Prevents the mutliple runs from each tier call. No null ref call :)
+        private static int s_count = 0; //Prevents the mutliple runs from each tier call. No null ref call :) (not needed unless hack has side effects)
 
         public static void Postfix(CM_PageRundown_New __instance) 
         {

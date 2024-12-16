@@ -1,5 +1,4 @@
 ﻿using CellMenu;
-using GTFO.API;
 using HarmonyLib;
 using NewUpdatedRundownProgression.PluginInfo;
 
@@ -11,7 +10,6 @@ namespace NewUpdatedRundownProgression.Patches
         public static void Postfix() 
         {
             LoadClearData.Load();
-            LevelAPI.OnEnterLevel += OnLevelEnter.EnterLevel;
             Logger.Debug("Loading Clear Data");
         }
     }
