@@ -17,6 +17,32 @@ namespace NewUpdatedRundownProgression
             AllClearedSectors = 0
         };
 
+        public static bool GetProgressionForRundown(out RundownManager.RundownProgData rundownProgression)
+        {
+            rundownProgression = new RundownManager.RundownProgData();
+
+            if (!PageRundown_UpdateProgress.RundownPage)
+                return false;
+
+            for (int i = 0; i < PageRundown_UpdateProgress.RundownPage.m_expIconsAll.Count; i++)
+            {
+                CM_ExpeditionIcon_New icon = PageRundown_UpdateProgress.RundownPage.m_expIconsAll[i];
+
+                if (!icon.gameObject.active)
+                    continue;
+
+                rundownProgression.totalMain++;
+                if (RundownManager.HasSecondaryLayer(icon.DataBlock))
+                    rundownProgression.totalSecondary++;
+                if (RundownManager.HasThirdLayer(icon.DataBlock))
+                    rundownProgression.totalThird++;
+                if (RundownManager.HasAllCompletetionPossibility(icon.DataBlock))
+                    rundownProgression.totalAllClear++;
+            }
+
+            return true;
+        }
+
         public static bool GetProgressionForRundown(CM_PageRundown_New pageRundown, out RundownManager.RundownProgData rundownProgression)
         {
             rundownProgression = new RundownManager.RundownProgData();
@@ -90,6 +116,8 @@ namespace NewUpdatedRundownProgression
                     SetDecryptionStatus(requirement, ref icon);
 
                     icon.SetDecryptText(requirement.DecryptedText ??= "", requirement.ChangeLockText);
+                    //icon.m_decryptErrorText.SetText(requirement.DecryptedText);
+                    //component.ChangeText = requirement.ChangeLockText;
                 }
                 else
                 {

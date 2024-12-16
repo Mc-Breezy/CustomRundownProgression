@@ -1,4 +1,5 @@
 ﻿using CellMenu;
+using HarmonyLib;
 
 namespace NewUpdatedRundownProgression.Patches
 {
@@ -8,18 +9,19 @@ namespace NewUpdatedRundownProgression.Patches
 
         public static void LocalUpdate(this CM_ExpeditionIcon_New icon) 
         {
-            if (!icon.GetIconInformation(out var information))
+            if (!s_iconStates.ContainsKey(icon.DataBlock.Descriptive.PublicName))
                 return;
 
+            (string text, bool enabled) information = s_iconStates[icon.DataBlock.Descriptive.PublicName];
             icon.m_decryptErrorText.SetText(information.text);
             icon.m_decryptErrorText.gameObject.SetActive(information.enabled);
         }
 
-        public static bool GetIconInformation(this CM_ExpeditionIcon_New icon, out (string text, bool enabled) info) 
+        public static bool GetIconInformation(this CM_ExpeditionIcon_New icon, out (string text, bool enabled)? info) 
         {
             if (!s_iconStates.ContainsKey(icon.DataBlock.Descriptive.PublicName))
             {
-                info = default;
+                info = null;
                 return false;
             }
 
@@ -42,6 +44,6 @@ namespace NewUpdatedRundownProgression.Patches
             s_iconStates.Add(icon.DataBlock.Descriptive.PublicName, new(text, enabled));
         }
 
-        public static void Cleanup() => s_iconStates.Clear(); //Possibly needed but most likely not
+        public static void Cleanup() => s_iconStates.Clear();
     }
 }

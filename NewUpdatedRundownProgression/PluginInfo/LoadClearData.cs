@@ -1,4 +1,5 @@
 ﻿using GameData;
+using Il2CppSystem.Linq.Expressions;
 using NewUpdatedRundownProgression.ConfigFiles;
 using NewUpdatedRundownProgression.ConfigFiles.Progression;
 using System.Text.Json;
@@ -17,6 +18,9 @@ namespace NewUpdatedRundownProgression.PluginInfo
 
         public static string? GetClearPath(uint rundownID) 
             => CheckRundownEntry(rundownID) ? s_allRundownInformation[rundownID].RundownClearPath : null;
+
+        public static RundownDataBlock? GetRundownDataBlockAtPath(string path)
+            => JsonSerializer.Deserialize<RundownDataBlock>(path, EntryPoint.SerializerOptions);
 
         private static bool CheckRundownEntry(uint valueToCheck) 
             => s_allRundownInformation.Count > 0 && s_allRundownInformation.ContainsKey(valueToCheck);
@@ -92,6 +96,12 @@ namespace NewUpdatedRundownProgression.PluginInfo
             {
                 ParseClearTierData(item.Value, rundown, item.Key).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
             }
+
+            //ParseClearTierData(oldFile.TierAClearData, rundown, eRundownTier.TierA).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
+            //ParseClearTierData(oldFile.TierBClearData, rundown, eRundownTier.TierB).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
+            //ParseClearTierData(oldFile.TierCClearData, rundown, eRundownTier.TierC).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
+            //ParseClearTierData(oldFile.TierDClearData, rundown, eRundownTier.TierD).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
+            //ParseClearTierData(oldFile.TierEClearData, rundown, eRundownTier.TierE).ToList().ForEach(x => clearData.Add(x.Key, x.Value));
 
             oldFile.AllClearsInRundown ??= new ClearData();
 
